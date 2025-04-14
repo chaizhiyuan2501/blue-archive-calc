@@ -1,17 +1,14 @@
-﻿﻿version: '3.9'
-
-services:
+﻿services:
   backend:
     build: ./backend
     container_name: blue_archive_calc_backend
-    command: >
-
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
     volumes:
-      - ./backend:/app  # ローカルのコードをコンテナに同期
+      - ./backend:/app
     ports:
       - "8000:8000"
     depends_on:
-      - db  # DB コンテナが起動後に実行
+      - db
     environment:
       POSTGRES_DB: mydatabase
       POSTGRES_USER: myuser
@@ -21,7 +18,7 @@ services:
 
   db:
     image: postgres:15
-    container_name: shifts_postgres
+    container_name: blue_archive_calc_postgres
     restart: always
     environment:
       POSTGRES_DB: mydatabase
@@ -30,22 +27,21 @@ services:
     ports:
       - "5434:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data  # DB データの永続化
+      - postgres_data:/var/lib/postgresql/data
 
   frontend:
     build: ./frontend
     container_name: blue_archive_calc_frontend
     ports:
-      - "5173:5173"  # Vite 用ポート
+      - "5173:5173"
     volumes:
       - ./frontend:/app
-      - /app/node_modules  # node_modules をコンテナ内に保持
+      - /app/node_modules
     depends_on:
-      - backend  # Django 起動後にフロントエンドを起動
-    # TODO: 下記の起動確認完了後、コメントアウトを外す
-    # command: >
-    #   sh -c "npm install && npm run dev -- --host 0.0.0.0"
-    # tty: true
+      - backend
+    command: >
+      sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    tty: true
 
 volumes:
-  postgres_data:  # DB のデータ永続化用
+  postgres_data:

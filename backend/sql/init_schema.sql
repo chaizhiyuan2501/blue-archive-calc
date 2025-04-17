@@ -20,6 +20,23 @@ CREATE TABLE IF NOT EXISTS schools (
     name VARCHAR(100) UNIQUE NOT NULL
 );
 
+CREATE TABLE exp_reports (
+    name VARCHAR(50) not NULL,
+    exp_value INTEGER not NULL,
+)
+CREATE TABLE level_requirements (
+    level INTEGER PRIMARY KEY,
+    exp_books INTEGER NOT NULL,
+    credits INTEGER NOT NULL
+);
+
+CREATE TABLE Equipment (
+    category VARCHAR(50),
+    name VARCHAR(100) NOT NULL,
+    tier INTEGER,
+    
+)
+
 CREATE TABLE IF NOT EXISTS gifts (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,

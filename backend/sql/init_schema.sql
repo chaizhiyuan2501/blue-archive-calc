@@ -1,13 +1,35 @@
-﻿CREATE TABLE IF NOT EXISTS student_info (
+﻿-- 学校表
+CREATE TABLE IF NOT EXISTS schools (
     id SERIAL PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL
+);
+
+-- 礼物表
+CREATE TABLE IF NOT EXISTS gifts (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    category VARCHAR(50),           -- 例：寝具類、運動用品など
+    grade VARCHAR(10),              -- 通常 / 高級
+    bond_point_small INTEGER,       -- 学生反応：小
+    bond_point_medium INTEGER,      -- 学生反応：中
+    bond_point_large INTEGER,       -- 学生反応：大
+    bond_point_extra INTEGER        -- 学生反応：特大
+);
+
+-- 学生基本信息表
+CREATE TABLE IF NOT EXISTS student_info (
+    id SERIAL PRIMARY KEY,
+
     -- 多语言名
     name_jp VARCHAR(100) NOT NULL,
     name_en VARCHAR(100),
     name_zh_CN VARCHAR(100),
     name_zh_TW VARCHAR(100),
-    -- 外键字段（引用 schools/gifts）
-    school_id INTEGER REFERENCES schools (id),
-    gift_id INTEGER REFERENCES gifts (id),
+
+    -- 外键字段
+    school_id INTEGER REFERENCES schools(id),
+    gift_id INTEGER REFERENCES gifts(id),
+
     -- 角色属性
     role_type VARCHAR(50),
     position VARCHAR(50),
@@ -15,35 +37,23 @@
     release_date DATE
 );
 
-CREATE TABLE IF NOT EXISTS schools (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100) UNIQUE NOT NULL
+-- 经验书类型表
+CREATE TABLE IF NOT EXISTS exp_reports (
+    name VARCHAR(50) PRIMARY KEY,
+    exp_value INTEGER NOT NULL
 );
 
-CREATE TABLE exp_reports (
-    name VARCHAR(50) not NULL,
-    exp_value INTEGER not NULL,
-)
-CREATE TABLE level_requirements (
+-- 每等级所需素材
+CREATE TABLE IF NOT EXISTS level_requirements (
     level INTEGER PRIMARY KEY,
     exp_books INTEGER NOT NULL,
     credits INTEGER NOT NULL
 );
 
-CREATE TABLE Equipment (
-    category VARCHAR(50),
-    name VARCHAR(100) NOT NULL,
-    tier INTEGER,
-    
-)
-
-CREATE TABLE IF NOT EXISTS gifts (
+-- 装备表
+CREATE TABLE IF NOT EXISTS equipment (
     id SERIAL PRIMARY KEY,
+    category VARCHAR(50),               -- 例：武器、防具、アクセサリなど
     name VARCHAR(100) NOT NULL,
-    category VARCHAR(50), -- 例：寝具類、運動用品など
-    grade VARCHAR(10), -- 通常 / 高級
-    bond_point_small INTEGER, -- 学生反応：小
-    bond_point_medium INTEGER, -- 学生反応：中
-    bond_point_large INTEGER, -- 学生反応：大
-    bond_point_extra INTEGER -- 学生反応：特大
+    tier INTEGER CHECK (tier BETWEEN 1 AND 10)  -- T1 ~ T10
 );

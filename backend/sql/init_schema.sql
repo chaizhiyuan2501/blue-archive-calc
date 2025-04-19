@@ -50,10 +50,24 @@ CREATE TABLE IF NOT EXISTS level_requirements (
     credits INTEGER NOT NULL
 );
 
--- 装备表
-CREATE TABLE IF NOT EXISTS equipment (
+-- 技能信息（EX/ノーマル/パッシブ/サブ）
+CREATE TABLE IF NOT EXISTS student_skills (
     id SERIAL PRIMARY KEY,
-    category VARCHAR(50),               -- 例：武器、防具、アクセサリなど
-    name VARCHAR(100) NOT NULL,
-    tier INTEGER CHECK (tier BETWEEN 1 AND 10)  -- T1 ~ T10
+    student_id INTEGER REFERENCES student_info(id),
+    skill_type VARCHAR(20),  -- EX / ノーマル / パッシブ / サブ
+    level INTEGER,
+    is_max BOOLEAN DEFAULT FALSE
 );
+
+
+-- 装备表
+CREATE TABLE IF NOT EXISTS student_equipment (
+    id SERIAL PRIMARY KEY,
+    student_id INTEGER REFERENCES student_info(id),
+    slot INTEGER CHECK (slot BETWEEN 1 AND 3),
+    name VARCHAR(100),
+    tier INTEGER CHECK (tier BETWEEN 1 AND 10),
+    is_enhanced BOOLEAN DEFAULT FALSE
+);
+
+

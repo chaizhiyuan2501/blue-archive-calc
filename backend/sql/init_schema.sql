@@ -16,6 +16,25 @@ CREATE TABLE IF NOT EXISTS gifts (
     bond_point_extra INTEGER        -- 学生反応：特大
 );
 
+-- gifts（贈り物基本情報テーブル）
+CREATE TABLE IF NOT EXISTS gifts (
+    id SERIAL PRIMARY KEY,             -- ギフトID
+    name VARCHAR(100) NOT NULL,         -- ギフト名
+    icon VARCHAR(255),                  -- アイコン画像（ファイルパスまたはURL）
+    description TEXT,                   -- 説明文
+    gift_type VARCHAR(50),               -- ギフトタイプ（スイーツ・ぬいぐるみなど）
+    affection_increase INTEGER NOT NULL, -- 好感度上昇量
+    obtain_method TEXT                  -- 入手方法（例：ショップ、ドロップ）
+);
+
+-- gift_favorites（贈り物と特効キャラクターの関連テーブル）
+CREATE TABLE IF NOT EXISTS gift_favorites (
+    id SERIAL PRIMARY KEY,
+    gift_id INTEGER NOT NULL REFERENCES gifts(id) ON DELETE CASCADE,
+    student_id INTEGER NOT NULL REFERENCES student_info(id) ON DELETE CASCADE
+);
+
+
 -- 学生基本信息表
 CREATE TABLE IF NOT EXISTS student_info (
     id SERIAL PRIMARY KEY,
@@ -49,6 +68,14 @@ CREATE TABLE IF NOT EXISTS level_requirements (
     exp_books INTEGER NOT NULL,
     credits INTEGER NOT NULL
 );
+
+-- 生徒用経験値テーブル
+CREATE TABLE student_exp_requirements (
+    level INTEGER PRIMARY KEY,
+    total_exp INTEGER NOT NULL,  -- そのレベルになるために必要な累計経験値
+    exp_to_next INTEGER          -- 次のレベルに進むために必要な経験値（Lv.80はNULL）
+);
+
 
 -- 技能信息（EX/ノーマル/パッシブ/サブ）
 CREATE TABLE IF NOT EXISTS student_skills (

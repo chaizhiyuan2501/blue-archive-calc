@@ -182,3 +182,28 @@ VALUES
     (98, 24, 24000),
     (99, 26, 26000),
     (100, 28, 28000);
+
+
+-- 插入角色状态
+INSERT INTO student_stats (student_id, hp, atk, heal, def)
+VALUES (1, 52908, 7937, 5948, 109);
+
+-- 插入角色技能
+INSERT INTO student_skills (student_id, skill_type, level, is_max)
+VALUES 
+    (1, 'EX', 10, TRUE),
+    (1, 'ノーマル', 10, TRUE),
+    (1, 'パッシブ', 10, TRUE),
+    (1, 'サブ', 10, TRUE);
+
+-- 插入装备
+INSERT INTO student_equipment (student_id, slot, name, tier, is_enhanced)
+VALUES 
+    (1, 1, 'アタッカー用ヘッドセット', 10, TRUE),
+    (1, 2, '攻撃型腕輪', 10, TRUE),
+    (1, 3, 'EX回路制御デバイス', 9, TRUE);
+
+-- 插入固有武器
+INSERT INTO student_weapon (student_id, name, level, star_rating)
+VALUES 
+    (1, 'ピンクアサルトAR', 50, 3);

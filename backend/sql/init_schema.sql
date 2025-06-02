@@ -35,25 +35,21 @@ CREATE TABLE IF NOT EXISTS gift_favorites (
 );
 
 
--- 学生基本信息表
-CREATE TABLE IF NOT EXISTS student_info (
-    id SERIAL PRIMARY KEY,
-
-    -- 多语言名
-    name_jp VARCHAR(100) NOT NULL,
-    name_en VARCHAR(100),
-    name_zh_CN VARCHAR(100),
-    name_zh_TW VARCHAR(100),
-
-    -- 外键字段
-    school_id INTEGER REFERENCES schools(id),
-    gift_id INTEGER REFERENCES gifts(id),
-
-    -- 角色属性
-    role_type VARCHAR(50),
+CREATE TABLE students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    school_id INT,
+    grade TINYINT,
     position VARCHAR(50),
-    rarity INTEGER CHECK (rarity BETWEEN 1 AND 3),
-    release_date DATE
+    attack_type VARCHAR(50),
+    defense_type VARCHAR(50),
+    role VARCHAR(50),
+    weapon_type VARCHAR(50),
+    is_limited BOOLEAN DEFAULT FALSE,
+    release_date DATE,
+    image_url TEXT,
+
+    FOREIGN KEY (school_id) REFERENCES schools(id)
 );
 
 -- 经验书类型表

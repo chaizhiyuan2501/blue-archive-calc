@@ -45,7 +45,7 @@ VALUES
 
 -- 插入角色
 INSERT INTO
-    student_info (
+    student (
         name_jp,
         name_en,
         name_zh_CN,

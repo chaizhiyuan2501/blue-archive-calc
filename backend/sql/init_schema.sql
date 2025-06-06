@@ -1,4 +1,13 @@
-﻿-- 学校表
+﻿-- 名前テーブル
+CREATE TABLE if NOT EXISTS names (
+    id SERIAL PRIMARY KEY,
+    name_jp VARCHAR(100),
+    name_cn VARCHAR(100),
+    name_en VARCHAR(100),
+    name_ko VARCHAR(100),
+)
+
+-- 学校表
 CREATE TABLE IF NOT EXISTS schools (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) UNIQUE NOT NULL
@@ -27,10 +36,9 @@ CREATE TABLE IF NOT EXISTS gifts (
     id SERIAL PRIMARY KEY, -- ギフトID
     name VARCHAR(100) NOT NULL, -- ギフト名
     icon VARCHAR(255), -- アイコン画像（ファイルパスまたはURL）
-    description TEXT, -- 説明文
     gift_type VARCHAR(50), -- ギフトタイプ（スイーツ・ぬいぐるみなど）
-    affection_increase INTEGER NOT NULL, -- 好感度上昇量
-    obtain_method TEXT -- 入手方法（例：ショップ、ドロップ）
+    description TEXT, -- 説明文
+    -- FOREIGN KEY (pond_point_id) REFERENCES pond_point (id), -- 好感度上昇量
 );
 
 -- gift_favorites（贈り物と特効キャラクターの関連テーブル）

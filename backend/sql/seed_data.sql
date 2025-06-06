@@ -57,10 +57,6 @@ INSERT INTO
         name,
         category,
         grade,
-        bond_point_small,
-        bond_point_medium,
-        bond_point_large,
-        bond_point_extra
     )
 VALUES
     ('高級チョコレート', 'お菓子', '高級', NULL, 120, 180, 240);

@@ -1,11 +1,11 @@
-﻿-- 名前テーブル
-CREATE TABLE if NOT EXISTS names (
+﻿CREATE TABLE if NOT EXISTS names (id SERIAL PRIMARY KEY,)
+CREATE TABLE IF EXISTS name_trranslations (
     id SERIAL PRIMARY KEY,
-    name_jp VARCHAR(100),
-    name_cn VARCHAR(100),
-    name_en VARCHAR(100),
-    name_ko VARCHAR(100),
-)
+    name_id INTEGER NOT NULL REFERENCES names (id) ON DELETE CASCADE,
+    language_code VARCHAR(10) NOT NULL, -- 语言代码，如 'zh_CN', 'en', 'ja'
+    translated_name VARCHAR(100) NOT NULL, -- 翻译后的名称
+    UNIQUE (name_id, language_code) -- 确保每个名称在每种语言中只有一个翻译
+);
 
 -- 学校表
 CREATE TABLE IF NOT EXISTS schools (
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS gift_favorites (
 
 CREATE TABLE students (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
+    name_id INTEGER REFERENCES names (id),
     school_id INT,
     grade TINYINT,
     position VARCHAR(50),
